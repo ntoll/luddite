@@ -2,11 +2,14 @@
 Contains the core classes for the Luddite browser.
 """
 import requests
-from tkinter import *
-from tkinter import ttk
+# import classic tkinter widgets
+from tkinter import Tk, Text
+# import Tkinter constants
+from tkinter import N, E, S, W, END, INSERT, X, Y, RIGHT, BOTTOM
+# import themed Tkinter widgets
+from tkinter.ttk import Button, Entry, Frame, Notebook, Scrollbar
 
-
-class Tab(ttk.Frame):
+class Tab(Frame):
     """
     Represents a tab in the main browser.
     """
@@ -18,6 +21,10 @@ class Tab(ttk.Frame):
         self.address_bar = Entry(self)
         self.go_button = Button(self, text='GO', command=self._get)
         self.page = Text(self)
+        vbar = Scrollbar(self.page)
+        vbar['command'] = self.page.yview
+        vbar.pack(side=RIGHT, fill=Y)
+        self.page['yscrollcommand'] = vbar.set
         self.address_bar.grid(row=0, column=0, sticky=W+E)
         self.go_button.grid(row=0, column=1, sticky=E)
         self.page.grid(row=1, column=0, columnspan=2, sticky=N+E+S+W)
@@ -48,7 +55,7 @@ class Browser(Tk):
         super().__init__()
         self.title('Luddite')
         self.geometry('800x600')
-        self.tab_holder = ttk.Notebook(self)
+        self.tab_holder = Notebook(self)
     
     def create_tab(self, url=None):
         """
