@@ -1,2 +1,0 @@
-# luddite
-The anti-browser.
